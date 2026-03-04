@@ -1,27 +1,44 @@
-i need to build The "Agent-Spend" GitHub Intelligence Tool (High GTM Value)
+# Agent-Spend GitHub Intelligence Tool
 
-The Problem: Natural needs to know who is building agentic workflows that involve high-frequency payments (SaaS subscriptions, cloud credits, API usage).
-The Solution: A specialized scraper/analyzer that targets GitHub and identifies repos using "Agentic" libraries (LangChain, CrewAI, AutoGPT) + "Payment" libraries (Stripe, Plaid, Braintree).
-What it does: It crawls GitHub for specific combinations of dependencies and code patterns (e.g., agent.run + stripe.PaymentIntent). It then cross-references the contributors' LinkedIn/X profiles.
-Value to Natural: You are handing the CEO a list of the top 100 high-intent leads who are currently hacking together "Agent Payments" manually. You aren't just an engineer; you are providing the Founding GTM value they are currently hiring for.
-Deliverable: A CSV/Dashboard of the "Natural Top 100 Leads" with technical proof of why they need Natural.
+A Python scraper that finds **high-intent leads** for Natural by identifying developers who are actively building AI agent + payment integrations on GitHub.
 
+## What It Does
 
-execution-plan:
-output: Run the GitHub scraper. Manually vet the top 20 leads. Write a 1-sentence "Why they need Natural" for each.
+1. **Searches GitHub** for repos that use agentic AI libraries (LangChain, CrewAI, AutoGPT, LangGraph, AutoGen) **combined with** payment libraries (Stripe, Plaid, Braintree, Square, Adyen)
+2. **Filters** to high-signal repos — 10+ stars, updated in the last 30 days
+3. **Enriches** each result with owner emails, LinkedIn/X profiles, and project context from the README
+4. **Analyzes gaps** — detects patterns like hardcoded API keys in agent loops, manual payment orchestration, or DIY subscription billing
+5. **Outputs `natural_top_leads.csv`** — a ranked list of up to 100 leads with technical proof of why they need Natural
 
-plan: 
-This is your "GTM-in-a-box." You are handing the CEO a list of people who are currently struggling with the problem Natural solves.
-1. The Scraper Script
-Write a script using the GitHub Search API or Sourcegraph.
-Search Query: Look for files containing import langchain (or crewai) AND import stripe (or plaid).
-Filter: Focus on repos updated in the last 30 days with >10 stars.
-Extraction: Get the README.md and find the "Company Name" or "User Email."
-2. The "Lead List" (Google Sheet or CSV)
-Don't just give them a list of names. Give them Technical Context.
-Example Row:
-Startup: "AgenticSaaS.ai"
-Tech Found: Using LangGraph + Stripe API.
-The Gap: They are using hard-coded API keys in the agent loop. (Vulnerability!)
-Natural's Play: Suggest Natural's "Escrow/Stablecoin" infrastructure to remove the risk of their agent draining their Stripe account.
+## How It Helps Natural's Team
 
+- **GTM-in-a-box** — Hands the CEO a curated list of people currently struggling with the exact problem Natural solves
+- **Technical proof, not guesswork** — Each lead comes with the specific agentic + payment tech they're using, the gap in their approach, and a suggested Natural pitch angle
+- **Saves weeks of manual research** — Automates what would otherwise be hours of GitHub browsing and LinkedIn hunting
+- **Prioritized by signal** — Leads are ranked by stars (proxy for traction), so the team focuses on the highest-value prospects first
+
+## Output CSV Columns
+
+| Column | What It Contains |
+|--------|-----------------|
+| Startup/Project | Name from the repo's README |
+| Repo URL | Direct link to the repo |
+| Stars / Last Updated | Traction & recency signals |
+| Agentic Tech Found | e.g. `langchain, crewai` |
+| Payment Tech Found | e.g. `stripe, plaid` |
+| The Gap | Why their current approach is fragile |
+| Natural's Play | 1-line pitch tailored to their stack |
+| Owner Email / LinkedIn/X | Contact info for outreach |
+
+## How to Run
+
+```powershell
+# Set token (PowerShell)
+$env:GITHUB_TOKEN = "ghp_your_token"
+
+# Or create a .env file with: GITHUB_TOKEN=ghp_your_token
+
+python agent_spend_scraper.py
+```
+
+Takes ~15–30 min due to GitHub rate limits. Outputs `natural_top_leads.csv` in the same folder.
