@@ -10,7 +10,7 @@ A Python scraper that finds **high-intent leads** for Natural by identifying dev
 4. **Analyzes gaps** — detects patterns like hardcoded API keys in agent loops, manual payment orchestration, or DIY subscription billing
 5. **Outputs `natural_top_leads.csv`** — a ranked list of up to 100 leads with technical proof of why they need Natural
 
-## How It Helps Natural's Team
+## How It Helps the Team
 
 - **GTM-in-a-box** — Hands the CEO a curated list of people currently struggling with the exact problem Natural solves
 - **Technical proof, not guesswork** — Each lead comes with the specific agentic + payment tech they're using, the gap in their approach, and a suggested Natural pitch angle
